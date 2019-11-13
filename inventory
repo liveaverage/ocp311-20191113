@@ -24,6 +24,9 @@ appnode2.leb.domain.com openshift_public_hostname=appnode2.leb.domain.com opensh
 appnode3.leb.domain.com openshift_public_hostname=appnode3.leb.domain.com openshift_node_group_name='node-config-compute'
 appnode4.leb.domain.com openshift_public_hostname=appnode4.leb.domain.com openshift_node_group_name='node-config-compute'
 appnode5.leb.domain.com openshift_public_hostname=appnode5.leb.domain.com openshift_node_group_name='node-config-compute'
+appnode6.leb.domain.com openshift_public_hostname=appnode6.leb.domain.com openshift_node_group_name='node-config-compute'
+appnode7.leb.domain.com openshift_public_hostname=appnode7.leb.domain.com openshift_node_group_name='node-config-compute'
+appnode8.leb.domain.com openshift_public_hostname=appnode8.leb.domain.com openshift_node_group_name='node-config-compute'
 infranode1.leb.domain.com openshift_public_hostname=infranode1.leb.domain.com openshift_node_group_name='node-config-infra'
 infranode2.leb.domain.com openshift_public_hostname=infranode2.leb.domain.com openshift_node_group_name='node-config-infra'
 infranode3.leb.domain.com openshift_public_hostname=infranode3.leb.domain.com openshift_node_group_name='node-config-infra'
@@ -31,22 +34,12 @@ glust-node1.leb.domain.com openshift_public_hostname=glust-node1.leb.domain.com 
 glust-node2.leb.domain.com openshift_public_hostname=glust-node2.leb.domain.com openshift_node_group_name='node-config-compute'
 glust-node3.leb.domain.com openshift_public_hostname=glust-node3.leb.domain.com openshift_node_group_name='node-config-compute'
 glust-node4.leb.domain.com openshift_public_hostname=glust-node4.leb.domain.com openshift_node_group_name='node-config-compute'
-glustinfra-node1.leb.domain.com openshift_public_hostname=glustinfra-node1.leb.domain.com openshift_node_group_name='node-config-compute'
-glustinfra-node2.leb.domain.com openshift_public_hostname=glustinfra-node2.leb.domain.com openshift_node_group_name='node-config-compute'
-glustinfra-node3.leb.domain.com openshift_public_hostname=glustinfra-node3.leb.domain.com openshift_node_group_name='node-config-compute'
-glustinfra-node4.leb.domain.com openshift_public_hostname=glustinfra-node4.leb.domain.com openshift_node_group_name='node-config-compute'
 
 [glusterfs]
 glust-node1.leb.domain.com glusterfs_zone=1 glusterfs_devices='["/dev/sdc"]'
 glust-node2.leb.domain.com glusterfs_zone=2 glusterfs_devices='["/dev/sdc"]'
 glust-node3.leb.domain.com glusterfs_zone=3 glusterfs_devices='["/dev/sdc"]'
 glust-node4.leb.domain.com glusterfs_zone=1 glusterfs_devices='["/dev/sdc"]'
-
-[glusterfs_registry]
-glustinfra-node1.leb.domain.com glusterfs_zone=3 glusterfs_devices='["/dev/sdc"]'
-glustinfra-node2.leb.domain.com glusterfs_zone=1 glusterfs_devices='["/dev/sdc"]'
-glustinfra-node3.leb.domain.com glusterfs_zone=2 glusterfs_devices='["/dev/sdc"]'
-glustinfra-node4.leb.domain.com glusterfs_zone=3 glusterfs_devices='["/dev/sdc"]'
 
 [OSEv3:vars]
 ansible_ssh_user=root
@@ -63,7 +56,7 @@ openshift_master_cluster_hostname=ocp-int.leb.domain.com
 openshift_master_cluster_public_hostname=ocp.leb.domain.com
 openshift_master_api_port=443
 openshift_master_console_port=443
-# openshift_master_ca_certificate={'certfile': '', 'keyfile': ''}
+
 openshift_master_overwrite_named_certificates=true
 openshift_master_named_certificates=[{"certfile": "/path/to/console.crt", "keyfile": "/path/to/console.key", "cafile": "/path/to/com-ca.crt", "names": ["ocp.leb.domain.com"]}]
 openshift_additional_ca=/path/to/com-ca.crt
@@ -73,7 +66,7 @@ openshift_hosted_router_certificate={"certfile": "/path/to/wildcard-leb.cert.pem
 
 # registry
 openshift_hosted_registry_storage_kind=glusterfs
-openshift_hosted_registry_storage_volume_size=150Gi
+openshift_hosted_registry_storage_volume_size=100Gi
 openshift_hosted_registry_selector="node-role.kubernetes.io/infra=true"
 
 # logging
@@ -81,7 +74,7 @@ openshift_logging_install_logging=true
 openshift_logging_es_pvc_dynamic=true
 openshift_logging_es_pvc_size=50Gi
 openshift_logging_es_cluster_size=3
-openshift_logging_es_pvc_storage_class_name='glusterfs-registry-block'
+openshift_logging_es_pvc_storage_class_name='glusterfs-block'
 openshift_logging_kibana_nodeselector={"node-role.kubernetes.io/infra":"true"}
 openshift_logging_curator_nodeselector={"node-role.kubernetes.io/infra":"true"}
 openshift_logging_es_nodeselector={"node-role.kubernetes.io/infra":"true"}
@@ -91,7 +84,7 @@ openshift_metrics_install_metrics=true
 openshift_metrics_storage_kind=dynamic
 openshift_master_dynamic_provisioning_enabled=true
 openshift_metrics_storage_volume_size=20Gi
-openshift_metrics_cassanda_pvc_storage_class_name='glusterfs-registry-block'
+openshift_metrics_cassanda_pvc_storage_class_name='glusterfs-block'
 openshift_metrics_hawkular_nodeselector={"node-role.kubernetes.io/infra":"true"}
 openshift_metrics_cassandra_nodeselector={"node-role.kubernetes.io/infra":"true"}
 openshift_metrics_heapster_nodeselector={"node-role.kubernetes.io/infra":"true"}
@@ -103,8 +96,8 @@ openshift_cluster_monitoring_operator_prometheus_storage_enabled=true
 openshift_cluster_monitoring_operator_alertmanager_storage_enabled=true
 openshift_cluster_monitoring_operator_prometheus_storage_capacity=50Gi
 openshift_cluster_monitoring_operator_alertmanager_storage_capacity=2Gi
-openshift_cluster_monitoring_operator_prometheus_storage_class_name='glusterfs-registry-block'
-openshift_cluster_monitoring_operator_alertmanager_storage_class_name='glusterfs-registry-block'
+openshift_cluster_monitoring_operator_prometheus_storage_class_name='glusterfs-block'
+openshift_cluster_monitoring_operator_alertmanager_storage_class_name='glusterfs-block'
 
 # Container image to use for glusterfs pods
 openshift_storage_glusterfs_image="registry.redhat.io/rhgs3/rhgs-server-rhel7:v3.11"
@@ -119,18 +112,13 @@ openshift_storage_glusterfs_heketi_image="registry.redhat.io/rhgs3/rhgs-volmanag
 openshift_storage_glusterfs_namespace=app-storage
 openshift_storage_glusterfs_storageclass=true
 openshift_storage_glusterfs_storageclass_default=false
-
-# OCS storage for OpenShift infrastructure
-openshift_storage_glusterfs_registry_namespace=infra-storage
-openshift_storage_glusterfs_registry_storageclass=false
-openshift_storage_glusterfs_registry_block_deploy=true
-openshift_storage_glusterfs_registry_block_host_vol_create=true
-openshift_storage_glusterfs_registry_block_host_vol_size=411
-openshift_storage_glusterfs_registry_block_storageclass=true
-openshift_storage_glusterfs_registry_block_storageclass_default=false
+openshift_storage_glusterfs_block_deploy=true
+openshift_storage_glusterfs_block_host_vol_size=150
+openshift_storage_glusterfs_block_storageclass=true
+openshift_storage_glusterfs_block_storageclass_default=false
 
 ## openshift_master_identity_providers=[{"name": "my_ldap_provider", "challenge": "true", "login": "true", "kind": "LDAPPasswordIdentityProvider", "attributes": {"id": ["dn"], "email": ["mail"], "name": ["cn"], "preferredUsername": ["uid"]}, "bindDN": "", "bindPassword": "", "ca": "com-ca.crt", "insecure": "false", "url": "ldaps://gc.ad.domain.com:3269/ou=users,dc=ad,dc=domain,dc=com?sAMAccountName"}]
-openshift_master_identity_providers=[{'name': 'com Authentication', 'challenge': 'true', 'login': 'true', 'kind': 'LDAPPasswordIdentityProvider', 'attributes': {'id': ['sAMAccountName'], 'email': ['mail'], 'name': ['cn'], 'preferredUsername': ['sAMAccountName']}, 'bindDN': 'svcacct@ad.domain.com', 'bindPassword': 'Sw0rdF!sh', 'ca': 'com-ca.crt', 'insecure': 'false', 'url': 'ldaps://ad.domain.com:3269/DC=ad,DC=domain,DC=com?sAMAccountName?sub?(&(objectCategory=Person)(memberOf=CN=devsecopsgroup,OU=Groups,DC=ad,DC=domain,DC=com))'}, {'name': 'Local Authentication', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider'}]
+openshift_master_identity_providers=[{'name': 'LDAP Authentication', 'challenge': 'true', 'login': 'true', 'kind': 'LDAPPasswordIdentityProvider', 'attributes': {'id': ['sAMAccountName'], 'email': ['mail'], 'name': ['cn'], 'preferredUsername': ['sAMAccountName']}, 'bindDN': 'svcacct@ad.domain.com', 'bindPassword': 'Sw0rdF!sh', 'ca': 'com-ca.crt', 'insecure': 'false', 'url': 'ldaps://ad.domain.com:3269/DC=ad,DC=domain,DC=com?sAMAccountName?sub?(&(objectCategory=Person)(memberOf=CN=devsecopsgroup,OU=Groups,DC=ad,DC=domain,DC=com))'}, {'name': 'Local Authentication', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider'}]
 openshift_master_ldap_ca_file=/path/to/com-ca.crt
 
 openshift_master_htpasswd_users={'ocpadmin': '$apr1$5eRMB/YZ$9bHsL3UUmYE2hPCqSo0dH/'}
