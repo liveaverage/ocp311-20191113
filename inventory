@@ -48,9 +48,9 @@ debug_level=2
 openshift_release=v3.11
 openshift_deployment_type=openshift-enterprise
 
-oreg_url=registry.redhat.io/openshift3/ose-${component}:${version}
-oreg_auth_user=rhn-svc-user
-oreg_auth_password=rhn-token-password
+#oreg_url=registry.redhat.io/openshift3/ose-${component}:${version}
+#oreg_auth_user=rhn-svc-user
+#oreg_auth_password=rhn-token-password
 
 openshift_master_cluster_hostname=ocp-int.leb.domain.com
 openshift_master_cluster_public_hostname=ocp.leb.domain.com
@@ -122,6 +122,8 @@ openshift_master_identity_providers=[{'name': 'LDAP Authentication', 'challenge'
 openshift_master_ldap_ca_file=/path/to/com-ca.crt
 
 openshift_node_groups=[{'name': 'node-config-master',  'labels': ['node-role.kubernetes.io/master=true' ],'edits': [{ 'key': 'kubeletArguments.kube-reserved','value': ['cpu=100m,memory=128M']}, { 'key': 'kubeletArguments.system-reserved','value': ['cpu=100m,memory=256M']},{ 'key': 'kubeletArguments.pods-per-core','value': ['10']},{ 'key': 'kubeletArguments.max-pods','value': ['250']},{ 'key': 'kubeletArguments.maximum-dead-containers','value': ['5']},{ 'key': 'kubeletArguments.maximum-dead-containers-per-container','value': ['1']},{ 'key': 'kubeletArguments.image-gc-high-threshold','value': ['80']},{ 'key': 'kubeletArguments.image-gc-low-threshold','value': ['60']}]},{'name': 'node-config-infra',   'labels': ['node-role.kubernetes.io/infra=true'  ],'edits':[{ 'key': 'kubeletArguments.kube-reserved','value': ['cpu=100m,memory=128M']},{ 'key': 'kubeletArguments.system-reserved','value': ['cpu=100m,memory=256M']},{ 'key': 'kubeletArguments.pods-per-core','value': ['10']},{ 'key': 'kubeletArguments.max-pods','value': ['250']},{ 'key': 'kubeletArguments.maximum-dead-containers','value': ['5']},{ 'key': 'kubeletArguments.maximum-dead-containers-per-container','value': ['1']},{ 'key': 'kubeletArguments.image-gc-high-threshold','value': ['80']},{ 'key': 'kubeletArguments.image-gc-low-threshold','value': ['60']}]},{'name': 'node-config-compute', 'labels': ['node-role.kubernetes.io/compute=true'],'edits':[{ 'key': 'kubeletArguments.kube-reserved','value': ['cpu=100m,memory=128M']},{ 'key': 'kubeletArguments.system-reserved','value': ['cpu=100m,memory=256M']},{ 'key': 'kubeletArguments.pods-per-core','value': ['10']},{ 'key': 'kubeletArguments.max-pods','value': ['250']},{ 'key': 'kubeletArguments.maximum-dead-containers','value': ['5']},{ 'key': 'kubeletArguments.maximum-dead-containers-per-container','value': ['1']},{ 'key': 'kubeletArguments.image-gc-high-threshold','value': ['80']},{ 'key': 'kubeletArguments.image-gc-low-threshold','value': ['60']}]},{'name': 'node-config-master-infra',  'labels': ['node-role.kubernetes.io/infra=true' ,'node-role.kubernetes.io/master=true' ]},{'name': 'node-config-all-in-one',  'labels': ['node-role.kubernetes.io/infra=true', 'node-role.kubernetes.io/master=true' ,'node-role.kubernetes.io/compute=true' ]}]
+oreg_url=satellite.example.com:5000/lab-ocp_docker_images-openshift3_ose-${component}:${version}
+openshift_docker_additional_registries=satellite.example.com:5000
 
 openshift_master_htpasswd_users={'ocpadmin': '$apr1$5eRMB/YZ$9bHsL3UUmYE2hPCqSo0dH/'}
 
