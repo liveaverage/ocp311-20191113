@@ -1,0 +1,65 @@
+#### FE OCP3 - CONSOLE
+
+frontend ocp3-console
+        mode tcp
+        option tcplog
+        bind 10.10.11.1:443
+        default_backend ocp3-console
+
+#### FE OCP3 - ROUTER
+
+frontend ocp3-router-http
+       mode tcp
+       option tcplog
+       bind 10.10.11.2:80
+       default_backend ocp3-router-http
+
+frontend ocp3-router-https
+       mode tcp
+       option tcplog
+       bind 10.10.11.2:443
+       default_backend ocp3-router-https
+
+#### BE OCP3 - CONSOLE
+
+backend ocp3-console
+        mode tcp
+        balance source
+        server master1 master1.leb.domain.com:443 check
+        server master2 master2.leb.domain.com:443 check
+        server master3 master3.leb.domain.com:443 check
+
+#### BE OCP3 - ROUTER
+
+backend ocp3-router-http
+        mode tcp
+        server infra1 infranode1.leb.domain.com:80 check
+        server infra2 infranode2.leb.domain.com:80 check
+        server infra2 infranode2.leb.domain.com:80 check
+
+backend ocp3-router-https
+        mode tcp
+        server infra1 infranode1.leb.domain.com:443 check
+        server infra2 infranode2.leb.domain.com:443 check
+        server infra2 infranode2.leb.domain.com:443 check
+
+
+############# OPTIONAL: Enable haproxy stats
+
+listen  stats   *:1936
+        mode            http
+        log             global
+
+        maxconn 10
+
+        #clitimeout      100s
+        #srvtimeout      100s
+        #contimeout      100s
+        timeout queue   100s
+
+        stats enable
+        stats hide-version
+        stats refresh 30s
+        stats show-node
+        stats auth admin:password
+        stats uri  /haproxy?stats
