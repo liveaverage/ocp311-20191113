@@ -1,3 +1,11 @@
+############# OPTIONAL: Enable haproxy stats
+
+listen stats *:1936
+    stats enable
+    stats uri /
+    stats hide-version
+    stats auth admin:admin
+
 #### FE OCP3 - CONSOLE
 
 frontend ocp3-console
@@ -44,22 +52,4 @@ backend ocp3-router-https
         server infra2 infranode2.leb.domain.com:443 check
 
 
-############# OPTIONAL: Enable haproxy stats
 
-listen  stats   *:1936
-        mode            http
-        log             global
-
-        maxconn 10
-
-        #clitimeout      100s
-        #srvtimeout      100s
-        #contimeout      100s
-        timeout queue   100s
-
-        stats enable
-        stats hide-version
-        stats refresh 30s
-        stats show-node
-        stats auth admin:password
-        stats uri  /haproxy?stats
