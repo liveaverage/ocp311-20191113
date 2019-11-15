@@ -1,0 +1,43 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  annotations:
+  labels:
+    metrics-infra: hawkular-metrics
+    name: hawkular-metrics-schema
+  name: hawkular-metrics-schema
+  selfLink: /apis/batch/v1/namespaces/openshift-infra/jobs/hawkular-metrics-schema:v3.11
+spec:
+  backoffLimit: 6
+  completions: 1
+  parallelism: 1
+  template:
+    metadata:
+      labels:
+        job-name: hawkular-metrics-schema
+    spec:
+      containers:
+      - env:
+        - name: TRUSTSTORE_AUTHORITIES
+          value: /hawkular-metrics-certs/tls.truststore.crt
+        image: registry.access.redhat.com/openshift3/metrics-schema-installer
+        imagePullPolicy: IfNotPresent
+        name: hawkular-metrics-schema
+        volumeMounts:
+        - mountPath: /hawkular-metrics-certs
+          name: hawkular-metrics-certs
+        - mountPath: /hawkular-account
+          name: hawkular-metrics-account
+      dnsPolicy: ClusterFirst
+      restartPolicy: OnFailure
+      schedulerName: default-scheduler
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: hawkular-metrics-certs
+        secret:
+          defaultMode: 420
+          secretName: hawkular-metrics-certs
+      - name: hawkular-metrics-account
+        secret:
+          defaultMode: 420
+          secretName: hawkular-metrics-account
