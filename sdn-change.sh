@@ -2,10 +2,10 @@
 oc get netnamespace
 
 ## Masters
-ansible -i inventory masters -m replace -a "path=/etc/origin/master/master-config.yaml regexp='networkPluginName.*' replace='networkPluginName: "ovs-multitenant"'" --diff --check
+ansible -i inventory masters -m replace -a "path=/etc/origin/master/master-config.yaml regexp='networkPluginName.*' replace='networkPluginName: "redhat/openshift-ovs-multitenant"'" --diff --check
 
 ## Nodes
-ansible -i inventory nodes -m replace -a "path=/etc/origin/node/node-config.yaml regexp='networkPluginName.*' replace='networkPluginName: "ovs-multitenant"'" --diff --check
+ansible -i inventory nodes -m replace -a "path=/etc/origin/node/node-config.yaml regexp='networkPluginName.*' replace='networkPluginName: "redhat/openshift-ovs-multitenant"'" --diff --check
 
 ## Master Service Restarts
 ansible -i inventory masters -m shell -a "master-restart api"
