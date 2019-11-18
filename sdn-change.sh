@@ -14,7 +14,7 @@ ansible -i inventory masters -m shell -a "master-restart controllers"
 ## Node Service Halt
 ansible -i inventory nodes -m shell -a "systemctl stop atomic-openshift-node.service"
 
-## SDN Pod Restarts
+## SDN Pod Restarts (from Master)
 oc delete pod --all -n openshift-sdn
 
 ## Node Service Restarts
