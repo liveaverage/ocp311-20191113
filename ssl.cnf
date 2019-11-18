@@ -1,0 +1,18 @@
+[ req ]
+default_bits               = 2048
+distinguished_name         = req_distinguished_name
+req_extensions             = req_ext
+[ req_distinguished_name ]
+countryName                = US
+stateOrProvinceName        = Florida
+localityName               = Gainesville
+organizationName           = Domain Company
+commonName                 = ocp.domain.com
+[ req_ext ]
+subjectAltName = @alt_names
+[alt_names]
+DNS.1   = ocp.domain.com
+DNS.2   = *.sub.domain.com
+DNS.3   = master1.domain.com
+DNS.4   = master2.domain.com
+DNS.5   = master3.domain.com
