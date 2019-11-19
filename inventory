@@ -3,7 +3,7 @@ masters
 nodes
 etcd
 glusterfs
-glusterfs_registry
+#glusterfs_registry
 
 [etcd]
 master1.leb.domain.com openshift_public_hostname=master1.leb.domain.com
